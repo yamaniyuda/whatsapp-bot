@@ -13,28 +13,32 @@ client.on('ready', () => {
 });
 
 client.on('message', msg => {
-    // Note: Replace **<YOUR_APPLICATION_TOKEN>** with your actual Application token
+
+    const token = '<YOUR_TOKEN>'
+    const url = '<YOUR_URL>'
+
+    
     const payload = {
         "input_value": msg.body,
         "output_type": "chat",
         "input_type": "chat",
-        // Optional: Use session tracking if needed
-        "session_id": "customer_1"
+        "session_id": "customer"
     };
-    
+
     const options = {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
         },
         body: JSON.stringify(payload)
     };
-    
-    fetch('http://127.0.0.1:7860/api/v1/run/c0c65d49-ed51-40b9-8d32-d1b7fbe5da51', options)
+
+    fetch(url, options)
         .then(response => response.json())
         .then(response => msg.reply(response.outputs[0].outputs[0].artifacts.message))
         .catch(err => console.error(err));
-        
+
 });
 
 client.initialize();
